@@ -1,0 +1,23 @@
+server:
+   port: ${PORT:9180}
+application:
+   name: ^project.artifactId^
+   description: ^project.name^
+   version: ^project.version^
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: ${DISCOVERY_URL:http://${DISCOVERY_HOST:localhost}:${DISCOVERY_PORT:8761}/eureka/}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: all
+  endpoint:
+    health:
+      enabled: true
+
+spring:
+  application:
+    name: trading-service

@@ -1,0 +1,40 @@
+server:
+   port: ${PORT:9080}
+application:
+   name: ^project.artifactId^
+   description: ^project.name^
+   version: ^project.version^
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: ${DISCOVERY_URL:http://${DISCOVERY_HOST:localhost}:${DISCOVERY_PORT:8761}/eureka/}
+
+
+
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: all
+  endpoint:
+    health:
+      enabled: true
+
+spring:
+  application:
+    name: gateway
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+      routes: 
+      - id: trading-service
+        uri: lb://trading-service
+        predicates:
+        - Path=/trading-service/api/**
+        filters:
+        - RewritePath=/trading-service/api(?<path>.*), /api/$\{path}
+
+      
